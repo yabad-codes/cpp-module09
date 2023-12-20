@@ -6,7 +6,7 @@
 /*   By: yabad <yabad@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:26 by yabad             #+#    #+#             */
-/*   Updated: 2023/12/05 10:47:09 by yabad            ###   ########.fr       */
+/*   Updated: 2023/12/20 12:44:19 by yabad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ std::map<std::string, double>	BitcoinExchange::getData(const std::string dataPat
 	std::map<std::string, double>	dataMap;
 	std::ifstream	_file(dataPath);
 	
-	if (!_file.is_open())
-		std::cout << "Error : Something wrong happened, try again." << std::endl;
+	if (!_file.is_open()) {
+		throw std::exception();
+	}
 	std::string	line;
 	std::getline(_file, line);
 	while (std::getline(_file, line)) {
@@ -96,7 +97,6 @@ std::map<std::string, double>	BitcoinExchange::getData(const std::string dataPat
 }
 
 void	BitcoinExchange::performCalculations(std::string date, double number, std::map<std::string, double> dataMap) {
-	(void)date, (void)number, (void)dataMap;
 	std::map<std::string, double>::iterator it = dataMap.upper_bound(date);
 	it--;
 	std::cout << date << " => " << number << " = " << number * it->second << std::endl;
@@ -104,9 +104,16 @@ void	BitcoinExchange::performCalculations(std::string date, double number, std::
 
 void	BitcoinExchange::startProcessing(std::ifstream& _file) {
 	if (_file.is_open()) {
+		std::map<std::string, double> dataMap;
 		std::string	line;
+		try {
+			dataMap = getData(std::string("./data.csv"));
+		} catch (...) {
+			throw std::runtime_error("Can't read data from database");
+		}
 		std::getline(_file, line);
-		std::map<std::string, double> dataMap = getData(std::string("./data.csv"));
+		if (line != std::string("date | value"))
+			throw std::runtime_error("File format not valid");
 		while (std::getline(_file, line)) {
 			std::string	date;
 			std::string value;
@@ -128,5 +135,7 @@ void	BitcoinExchange::startProcessing(std::ifstream& _file) {
 			}
 		}
 		_file.close();
+		return ;
 	}
+	throw std::runtime_error("Can't open file.");
 }
