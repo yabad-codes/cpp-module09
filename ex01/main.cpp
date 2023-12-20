@@ -6,7 +6,7 @@
 /*   By: yabad <yabad@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:21:29 by yabad             #+#    #+#             */
-/*   Updated: 2023/12/05 16:37:00 by yabad            ###   ########.fr       */
+/*   Updated: 2023/12/20 13:13:55 by yabad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,5 @@ int	main(int ac, char **av) {
 		return -1;
 	}
 	RPN::calculate(std::string(av[1]));
-
-	
 	return 0;
 }
