@@ -6,7 +6,7 @@
 /*   By: yabad <yabad@student.1337.ma>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 17:47:02 by yabad             #+#    #+#             */
-/*   Updated: 2023/12/19 22:44:08 by yabad            ###   ########.fr       */
+/*   Updated: 2023/12/21 14:32:41 by yabad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,22 +186,20 @@ size_t binary_search_insert_vect(const int_vect& numbers, int value, size_t star
 }
 
 void PmergeMe::insertion_vect(int_vect& numbers, size_t len, size_t pairLen) {
-    for (size_t i = pairLen; i < len; i++) {
-        int current = numbers[i];
-        size_t j = i - 1;
-
-        size_t insertionPoint = binary_search_insert_vect(numbers, current, 0, i);
-
-        while (j >= insertionPoint && j < i) {
-            numbers[j + 1] = numbers[j];
-            if (j == 0) {
-                break;
-            }
-            j--;
-        }
-
-        numbers[insertionPoint] = current;
-    }
+	for (size_t i = pairLen; i < len; i++) {
+		int current = numbers[i];
+		size_t j = i - 1;
+		size_t insertionPoint = binary_search_insert_vect(numbers, current, 0, i);
+		
+		while (j >= insertionPoint && j < i) {
+			numbers[j + 1] = numbers[j];
+			if (j == 0) {
+				break;
+			}
+			j--;
+		}
+		numbers[insertionPoint] = current;
+	}
 }
 
 void PmergeMe::merge_insertion_vect(int_vect& numbers, size_t len, size_t pairLen) {
